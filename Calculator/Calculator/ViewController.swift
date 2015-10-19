@@ -74,7 +74,6 @@ class ViewController: UIViewController {
 
     var operandStack = Array<Double>()
     
-    
     @IBAction func enter() {
         userIsInTheMiddleOfTypingANumber = false
         if (display.text!.hasSuffix(".")){
