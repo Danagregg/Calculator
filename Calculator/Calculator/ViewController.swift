@@ -30,13 +30,20 @@ class ViewController: UIViewController {
             enter()
         }
         switch operation {
-        case "✖️": performOperation { $0 * $1 }
-        case "➗": performOperation { $1 / $0 }
-        case "➕": performOperation { $0 + $1 }
-        case "➖": performOperation { $1 - $0 }
-        case "✔️": performOneOperation { sqrt($0) }
-        default: break
+            case "✖️": performOperation { $0 * $1 }
+            case "➗": performOperation { $1 / $0 }
+            case "➕": performOperation { $0 + $1 }
+            case "➖": performOperation { $1 - $0 }
+            case "✔️": performOneOperation { sqrt($0) }
+            case "sin": performOneOperation { sin($0) }
+            case "cos": performOneOperation { cos($0) }
+            default: break
         }
+    }
+    
+    @IBAction func clear() {
+        display.text! = "0"
+        operandStack = Array<Double>()
     }
     
     func performOperation(operation: (Double, Double) -> Double) {
@@ -52,11 +59,26 @@ class ViewController: UIViewController {
             enter()
         }
     }
+    
+    @IBAction func addDecimal() {
+        if !(display.text! as NSString).containsString(".") {
+            if userIsInTheMiddleOfTypingANumber{
+                display.text = display.text! + "."
+            }
+            else {
+                display.text! = "0."
+                userIsInTheMiddleOfTypingANumber = true
+            }
+        }
+    }
 
     var operandStack = Array<Double>()
     
     @IBAction func enter() {
         userIsInTheMiddleOfTypingANumber = false
+        if (display.text!.hasSuffix(".")){
+            display.text = display.text! + "0"
+        }
         operandStack.append(displayValue)
         print("operandStack = \(operandStack)")
     }
